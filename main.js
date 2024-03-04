@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 페이지 로드시 자동 실행
     making_id();
     display_datetime();
-    // 이 부분에 get 호출 ㄱㄱ
+    
 
     
     // 이벤트 발생 시 호출
@@ -18,6 +18,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+// 이 부분에 get 호출 ㄱㄱ
+// 불러오기 버튼에 Get 
 
 // 각 셀, 컬럼 ID LIST DATA ===============================================================================================================================
 
@@ -75,6 +77,9 @@ const durations = [
 
 // ======================================================================================================================================================
 // API BODY 필수 DATA ====================================================================================================================================
+
+const fetch_url = "http://apst.iptime.org:6662/api/";
+
 const api_obj = {
     "host":"host.docker.internal",
     "database":"changhae_v3",
@@ -93,7 +98,7 @@ const extract_text = (cell) => {
         return null;
     }
     const content = element.innerText;
-    const extractedText = content.replace(/[^\d.]/g, '');
+    const extractedText = content.replace(/[^\d.-]/g, ''); // ".", "-", digit만 출력
     // console.log(extractedText.trim() === "" ? 'null' : extractedText);
     return extractedText;
 };
@@ -286,6 +291,8 @@ const display_datetime = () => {
     endTimeInput.addEventListener('input', update_elapsedtime);
 };
 
+
+// MAIN FUNCTION ** =====================================================================
 const making_json = async () => {
     try {
 
@@ -350,12 +357,12 @@ const making_json = async () => {
         throw error;
     }
 }
-
+// API 통신하는 CODE =================================================================
 const sent_data = async (flag) => {
     try {
         const jsonData = await making_json();
         console.log(`제이슨이다 ${jsonData}`); // 디버깅
-        const response = await fetch(`http://apst.iptime.org:6662/api/${flag}`, {
+        const response = await fetch(`${fetch_url}${flag}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
