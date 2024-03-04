@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./main.css">
+  <script src="./main.js"></script>
+</head>
+<body>
+  <div id="top-menu" style="display: flex; padding:2vh;">
+    <input
+          type="datetime-local"
+          value="2018-06-12T19:30"
+          min="1999-06-07T00:00"
+          max="2099-06-14T00:00"
+          class="main-timelocal" />
+    <button id="save-temp-btn">임시 저장</button>
+    <button onclick="making_json()">print Json</button>
+    <button id="sent-database-btn">DB 저장</button>
+    <form id="paymentForm" style="width: 50vh; height : 4vh;">
+      <label for="person">담당자:</label>
+      <input type="text" id="person-in-charge" name="person" required>
+    </form>
+  </div>
+  <table class="total_table">
+  <thead>
+    <tr>
+      <th class="main-title" colspan="6">증자 및 당화공정</th>
+      <th class="main-title" colspan="4">주 모 공 정</th>
+      <th class="main-title" colspan="9">발 효 공 정</th>
+      <th class="main-title" colspan="2">검 정 현 황</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr>
+      <td class="sub-title" colspan="2">구 분</td>
+      <td class="sub-title">1 단</td>
+      <td class="sub-title">2 단</td>
+      <td class="sub-title">3 단</td>
+      <td class="sub-title">4 단</td>
+      <td class="msgbox-toggle-on" contenteditable="true" colspan="4">호</td>
+      <td class="msgbox-toggle-on" contenteditable="true" colspan="9">호</td>
+      <td class="sub-title">발 효 시 간</td>
+      <td class="duration-time">
+        <div id="duration-data1">
+          <label for="hours">시간:</label>
+          <input type="number" id="hours" min="0" max="9999" step="1">
+          <label for="minutes">분:</label>
+          <input type="number" id="minutes" min="0" max="59" step="1">
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td class="sub-title" rowspan="3">원<br><br><br><br>료</td>
+      <td class="select-box">
+        <select name="ingredinets">
+          <option value="0">원료</option>
+          <option value="1">현미/겉보리</option>
+          <option value="2">현미</option>
+          <option value="3">T.P</option>
+          <option value="4">겉보리</option>
+          <option value="5">겉보리/T.P</option>
+          <option value="6">현미/쇄미/겉보리</option>
+          <option value="7">현미/쇄미</option>
+          <option value="8">현미/백미</option>
+          <option value="9">현미/겉보리/백미</option>
+          <option value="10">현미/우리밀/백미</option>
+          <option value="11">백미/우리밀/곁보리/현미</option>
+          <option value="12">백미/우리밀/곁보리/현미/T.P</option>
+        </select>
+      </td>
+      <td class="msgbox-toggle-on" contenteditable="true"> </td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="sub-title">T</td>
+      <td class="timebox-on" colspan="3" contenteditable="true">
+        <div class="time-output-box"></div>
+        <input
+        type="datetime-local"
+        min="1999-06-07T00:00"
+        max="2099-06-14T00:00"
+        class="datetime-local" />
+      </td>
+      <td class="sub-title">일&nbsp;&nbsp;시</td>
+      <td class="sub-title">BRIX1</td>
+      <td class="sub-title">BRIX2</td>
+      <td class="sub-title">BRIX3</td>
+      <td class="sub-title">산&nbsp;&nbsp;도</td>
+      <td class="sub-title">산&nbsp;&nbsp;&nbsp;도</td>
+      <td class="sub-title">p&nbsp;&nbsp;&nbsp;H</td>
+      <td class="sub-title">검&nbsp;&nbsp;경</td>
+      <td class="sub-title">온&nbsp;&nbsp;&nbsp;도</td>
+      <td class="sub-title">&nbsp;&nbsp;유하시작시간&nbsp;&nbsp;</td>
+      <td class="timebox-on">
+        <div class="time-output-box"></div>
+        <input
+        type="datetime-local"
+        min="1999-06-07T00:00"
+        max="2099-06-14T00:00"
+        class="datetime-local" /></td>
+    </tr>
+    <tr>
+      <td class="select-box">
+        <select name="ingredinets">
+          <option value="0">원료</option>
+          <option value="1">현미/겉보리</option>
+          <option value="2">현미</option>
+          <option value="3">T.P</option>
+          <option value="4">겉보리</option>
+          <option value="5">겉보리/T.P</option>
+          <option value="6">현미/쇄미/겉보리</option>
+          <option value="7">현미/쇄미</option>
+          <option value="8">현미/백미</option>
+          <option value="9">현미/겉보리/백미</option>
+          <option value="10">현미/우리밀/백미</option>
+          <option value="11">백미/우리밀/곁보리/현미</option>
+          <option value="12">백미/우리밀/곁보리/현미/T.P</option>
+        </select>
+      </td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="sub-title" contenteditable="true">△</td>
+      <td class="timebox-on" colspan="3">
+        <div class="time-output-box"></div>
+        <input
+        type="datetime-local"
+        min="1999-06-07T00:00"
+        max="2099-06-14T00:00"
+        class="datetime-local" />
+      </td>
+      <td class="stack-timebox-on">
+        <div class="stack-time-output-box"></div>
+        <input
+        type="datetime-local"
+        min="1999-06-07T00:00"
+        max="2099-06-14T00:00"
+        class="stack-datetime-local" />
+      </td>
+      <td class="brix1-toggle-on" contenteditable="true"></td>
+      <td class="brix2-toggle-on" contenteditable="true"></td>
+      <td class="brix3-toggle-on" contenteditable="true"></td>
+      <td class="acid1-toggle-on" contenteditable="true"></td>
+      <td class="acid2-toggle-on" contenteditable="true"></td>
+      <td class="ph-toggle-on" contenteditable="true"></td>
+      <td class="check-toggle-on" contenteditable="true"></td>
+      <td class="degree-toggle-on" contenteditable="true"></td>
+      <td class="sub-title">유하완료시간</td>
+      <td class="timebox-on">
+        <div class="time-output-box"></div>
+        <input
+        type="datetime-local"
+        min="1999-06-07T00:00"
+        max="2099-06-14T00:00"
+        class="datetime-local" />
+      </td>
+    </tr>
+    <tr>
+      <td class="sub-title">주모</td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="sub-title">합계</td>
+      <td class="msgbox-toggle-on" contenteditable="true" colspan="2"></td>
+      <td class="sub-title">R</td>
+      <td class="timebox-on" colspan="3">
+        <div class="time-output-box"></div>
+        <input
+        type="datetime-local"
+        min="1999-06-07T00:00"
+        max="2099-06-14T00:00"
+        class="datetime-local" />
+      </td>
+      <td class="stack-timebox-on">
+        <div class="stack-time-output-box"></div>
+        <input
+        type="datetime-local"
+        min="1999-06-07T00:00"
+        max="2099-06-14T00:00"
+        class="stack-datetime-local" />
+      </td>
+      <td class="brix1-toggle-on" contenteditable="true"></td>
+      <td class="brix2-toggle-on" contenteditable="true"></td>
+      <td class="brix3-toggle-on" contenteditable="true"></td>
+      <td class="acid1-toggle-on" contenteditable="true"></td>
+      <td class="acid2-toggle-on" contenteditable="true"></td>
+      <td class="ph-toggle-on" contenteditable="true"></td>
+      <td class="check-toggle-on" contenteditable="true"></td>
+      <td class="degree-toggle-on" contenteditable="true"></td>
+      <td class="sub-title">소요&nbsp;&nbsp;시간</td>
+      <td class="valid-elapsed-time"></td>
+    </tr>
+    <tr>
+      <td class="sub-title" colspan="2">투입<br>시간</td>
+      <td class="timebox-on">
+        <div class="time-output-box"></div>
+        <input
+        type="datetime-local"
+        min="1999-06-07T00:00"
+        max="2099-06-14T00:00"
+        class="datetime-local" /></td>
+      <td class="timebox-on">
+        <div class="time-output-box"></div>
+        <input
+        type="datetime-local"
+        min="1999-06-07T00:00"
+        max="2099-06-14T00:00"
+        class="datetime-local" />
+      </td>
+      <td class="timebox-on">
+        <div class="time-output-box"></div>
+        <input
+        type="datetime-local"
+        min="1999-06-07T00:00"
+        max="2099-06-14T00:00"
+        class="datetime-local" />
+      </td>
+      <td class="timebox-on">
+        <div class="time-output-box"></div>
+        <input
+        type="datetime-local"
+        min="1999-06-07T00:00"
+        max="2099-06-14T00:00"
+        class="datetime-local" />
+      </td>
+      <td class="sub-title">효모</td>
+      <td class="timebox-on" colspan="3">
+        <div class="time-output-box"></div>
+        <input
+        type="datetime-local"
+        min="1999-06-07T00:00"
+        max="2099-06-14T00:00"
+        class="datetime-local" />
+      </td>
+      <td class="stack-timebox-on">
+        <div class="stack-time-output-box"></div>
+        <input
+        type="datetime-local"
+        min="1999-06-07T00:00"
+        max="2099-06-14T00:00"
+        class="stack-datetime-local" />
+      </td>
+      <td class="brix1-toggle-on" contenteditable="true"></td>
+      <td class="brix2-toggle-on" contenteditable="true"></td>
+      <td class="brix3-toggle-on" contenteditable="true"></td>
+      <td class="acid1-toggle-on" contenteditable="true"></td>
+      <td class="acid2-toggle-on" contenteditable="true"></td>
+      <td class="ph-toggle-on" contenteditable="true"></td>
+      <td class="check-toggle-on" contenteditable="true"></td>
+      <td class="degree-toggle-on" contenteditable="true"></td>
+      <td class="sub-title">제성예정량</td>
+      <td class="msgbox-toggle-on" contenteditable="true">L</td>
+    </tr>
+    <tr>
+      <td class="sub-title" colspan="2" rowspan="2">액  &nbsp;&nbsp;화<br>효소 (L)</td>
+      <td class="msgbox-toggle-on" contenteditable="true" rowspan="2"></td>
+      <td class="msgbox-toggle-on" contenteditable="true" rowspan="2"></td>
+      <td class="msgbox-toggle-on" contenteditable="true" rowspan="2"></td>
+      <td class="msgbox-toggle-on" contenteditable="true" rowspan="2"></td>
+      <td class="sub-title" rowspan="2">투입<br>시간</td>
+      <td class="sub-title">액.효</td>
+      <td class="sub-title" rowspan="2">증자<br>온도</td>
+      <td class="sub-title" rowspan="2">정제<br>효소</td>
+      <td class="stack-timebox-on" rowspan="2">
+        <div class="stack-time-output-box"></div>
+        <input
+        type="datetime-local"
+        min="1999-06-07T00:00"
+        max="2099-06-14T00:00"
+        class="stack-datetime-local" />
+      </td>
+      <td class="brix1-toggle-on" contenteditable="true" rowspan="2"></td>
+      <td class="brix2-toggle-on" contenteditable="true" rowspan="2"></td>
+      <td class="brix3-toggle-on" contenteditable="true" rowspan="2"></td>
+      <td class="acid1-toggle-on" contenteditable="true" rowspan="2"></td>
+      <td class="acid2-toggle-on" contenteditable="true" rowspan="2"></td>
+      <td class="ph-toggle-on" contenteditable="true" rowspan="2"></td>
+      <td class="check-toggle-on" contenteditable="true" rowspan="2"></td>
+      <td class="degree-toggle-on" contenteditable="true" rowspan="2"></td>
+      <td class="sub-title" rowspan="2">예정 수득량</td>
+      <td class="msgbox-toggle-on" contenteditable="true" rowspan="2">L/Ton</td>
+    </tr>
+    <tr>
+      <td class="sub-title">&nbsp;&nbsp;인 산</td>
+    </tr>
+    <tr>
+      <td class="sub-title" colspan="2" rowspan="2">증&nbsp;&nbsp;&nbsp;&nbsp;자<br>온도 ('C)</td>
+      <td class="msgbox-toggle-on" contenteditable="true" rowspan="2"></td>
+      <td class="msgbox-toggle-on" contenteditable="true" rowspan="2"></td>
+      <td class="msgbox-toggle-on" contenteditable="true" rowspan="2"></td>
+      <td class="msgbox-toggle-on" contenteditable="true" rowspan="2"></td>
+      <td class="timebox-on" rowspan="2">
+        <div class="time-output-box"></div>
+        <input
+        type="datetime-local"
+        min="1999-06-07T00:00"
+        max="2099-06-14T00:00"
+        class="datetime-local" />
+      </td>
+      <td class="msgbox-toggle-on" contenteditable="true">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L</td>
+      <td class="msgbox-toggle-on" contenteditable="true" rowspan="2"></td>
+      <td class="msgbox-toggle-on" contenteditable="true" rowspan="2"></td>
+      <td class="stack-timebox-on" contenteditable="true" rowspan="2">
+        <div class="stack-time-output-box"></div>
+        <input
+        type="datetime-local"
+        min="1999-06-07T00:00"
+        max="2099-06-14T00:00"
+        class="stack-datetime-local" />
+      </td>
+      <td class="brix1-toggle-on" contenteditable="true" rowspan="2"></td>
+      <td class="brix2-toggle-on" contenteditable="true" rowspan="2"></td>
+      <td class="brix3-toggle-on" contenteditable="true" rowspan="2"></td>
+      <td class="acid1-toggle-on" contenteditable="true" rowspan="2"></td>
+      <td class="acid2-toggle-on" contenteditable="true" rowspan="2"></td>
+      <td class="ph-toggle-on" contenteditable="true" rowspan="2"></td>
+      <td class="check-toggle-on" contenteditable="true" rowspan="2"></td>
+      <td class="degree-toggle-on" contenteditable="true" rowspan="2"></td>
+      <td class="sub-title" rowspan="2">이론 수득량</td>
+      <td class="msgbox-toggle-on" contenteditable="true" rowspan="2">L / Ton</td>
+    </tr>
+    <tr>
+      <td class="msgbox-toggle-on" contenteditable="true">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;kg</td>
+    </tr>
+    <tr>
+      <td class="sub-title" colspan="2">조효소<br>(kg)</td>
+      <td class="msgbox-toggle-on" contenteditable="true" colspan="4"></td>
+      <td class="sub-title">          분석<br>구분</td>
+      <td class="timebox-on">
+        <div class="time-output-box"></div>
+        <input
+        type="datetime-local"
+        min="1999-06-07T00:00"
+        max="2099-06-14T00:00"
+        class="datetime-local" />
+      </td>
+      <td class="timebox-on">
+        <div class="time-output-box"></div>
+        <input
+        type="datetime-local"
+        min="1999-06-07T00:00"
+        max="2099-06-14T00:00"
+        class="datetime-local" />
+      </td>
+      <td class="timebox-on">
+        <div class="time-output-box"></div>
+        <input
+        type="datetime-local"
+        min="1999-06-07T00:00"
+        max="2099-06-14T00:00"
+        class="datetime-local" />
+      </td>
+      <td class="stack-timebox-on">
+        <div class="stack-time-output-box"></div>
+        <input
+        type="datetime-local"
+        min="1999-06-07T00:00"
+        max="2099-06-14T00:00"
+        class="stack-datetime-local" />
+      </td>
+      <td class="brix1-toggle-on" contenteditable="true"></td>
+      <td class="brix2-toggle-on" contenteditable="true"></td>
+      <td class="brix3-toggle-on" contenteditable="true"></td>
+      <td class="acid1-toggle-on" contenteditable="true"></td>
+      <td class="acid2-toggle-on" contenteditable="true"></td>
+      <td class="ph-toggle-on" contenteditable="true"></td>
+      <td class="check-toggle-on" contenteditable="true"></td>
+      <td class="degree-toggle-on" contenteditable="true"></td>
+      <td class="sub-title">증 감 량</td>
+      <td class="msgbox-toggle-on" contenteditable="true">L / Ton</td>
+    </tr>
+    <tr>
+      <td class="sub-title" colspan="2">BRIX</td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="sub-title">BRIX</td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="stack-timebox-on">
+        <div class="stack-time-output-box"></div>
+        <input
+        type="datetime-local"
+        min="1999-06-07T00:00"
+        max="2099-06-14T00:00"
+        class="stack-datetime-local" />
+      </td>
+      <td class="brix1-toggle-on" contenteditable="true"></td>
+      <td class="brix2-toggle-on" contenteditable="true"></td>
+      <td class="brix3-toggle-on" contenteditable="true"></td>
+      <td class="acid1-toggle-on" contenteditable="true"></td>
+      <td class="acid2-toggle-on" contenteditable="true"></td>
+      <td class="ph-toggle-on" contenteditable="true"></td>
+      <td class="check-toggle-on" contenteditable="true"></td>
+      <td class="degree-toggle-on" contenteditable="true"></td>
+      <td class="sub-title" contenteditable="true" colspan="2">특이사항</td>
+    </tr>
+    <tr>
+      <td class="sub-title" colspan="2">산도</td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="sub-title">산도</td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="stack-timebox-on">
+        <div class="stack-time-output-box"></div>
+        <input
+        type="datetime-local"
+        min="1999-06-07T00:00"
+        max="2099-06-14T00:00"
+        class="stack-datetime-local" />
+      </td>
+      <td class="brix1-toggle-on" contenteditable="true"></td>
+      <td class="brix2-toggle-on" contenteditable="true"></td>
+      <td class="brix3-toggle-on" contenteditable="true"></td>
+      <td class="acid1-toggle-on" contenteditable="true"></td>
+      <td class="acid2-toggle-on" contenteditable="true"></td>
+      <td class="ph-toggle-on" contenteditable="true"></td>
+      <td class="check-toggle-on" contenteditable="true"></td>
+      <td class="degree-toggle-on" contenteditable="true"></td>
+      <td id="remark_cell" contenteditable="true" colspan="2" rowspan="5"></td>
+    </tr>
+    <tr>
+      <td class="sub-title" colspan="2">pH</td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="sub-title">pH</td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="timebox-on">
+        <div class="time-output-box"></div>
+        <input
+        type="datetime-local"
+        min="1999-06-07T00:00"
+        max="2099-06-14T00:00"
+        class="datetime-local" />
+      </td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+    </tr>
+    <tr>
+      <td class="sub-title" colspan="2">W-FG</td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="msgbox-toggle-on" contenteditable="true"></td>
+      <td class="sub-title">검경</td>
+      <td class="bool-box" colspan="3">
+        <input type="checkbox" value="true">True
+        <input type="checkbox" value="false">False
+      </td>
+      <td class="sub-title" colspan="4">공 &nbsp;&nbsp;  척</td>
+      <td class="msgbox-toggle-on" contenteditable="true" colspan="5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mm</td>
+    </tr>
+    <tr>
+      <td class="sub-title" colspan="2">합병시간</td>
+      <td class="timebox-on" colspan="4">
+        <div class="time-output-box"></div>
+        <input
+        type="datetime-local"
+        min="1999-06-07T00:00"
+        max="2099-06-14T00:00"
+        class="datetime-local" />
+      </td>
+      <td class="sub-title">경과시간</td>
+      <td class="duration-time" colspan="3">
+        <div id="duration-data1">
+          <label for="hours">시간:</label>
+          <input type="number" id="hours" min="0" max="9999" step="1">
+          <label for="minutes">분:</label>
+          <input type="number" id="minutes" min="0" max="59" step="1">
+        </div>
+      </td>
+      <td class="sub-title" colspan="4">요  &nbsp;&nbsp;  량</td>
+      <td class="msgbox-toggle-on" contenteditable="true" colspan="5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;L</td>
+    </tr>
+  </tbody>
+  </table>
+</body>
+</html>
+
