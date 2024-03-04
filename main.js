@@ -253,14 +253,14 @@ const display_datetime = () => {
     datetimeInputs.forEach((input,index) => {
         input.addEventListener('change', () => {
             const dateValue = new Date(input.value);
-            const month = dateValue.getMonth();
+            const month = dateValue.getMonth() + 1;
             const day = dateValue.getDate();
             const hours = dateValue.getHours();
             const minutes = dateValue.getMinutes();
             const dateString = `${day} 일 ${hours} 시`;
             const dateString_ = `${month} 월 ${day} 일 ${hours} 시 ${minutes} 분`;
             const outputBox = input.parentElement.querySelector(`#datetime-output${index+1}`);
-            outputBox.textContent = index == 1 || index == 3 ? dateString_ : dateString
+            outputBox.textContent = index == 1 || index == 3 ? dateString_ : dateString;
         
         });
     });
