@@ -299,12 +299,13 @@ const making_json = async () => {
         let boolBoxId = boolBox.id;
         obj.set("yeast_validation",boolBoxId)
 
-        let time_data = making_time_data()
-        let msg_object = Object.fromEntries(obj);
-        let stack_matrix = Object.fromEntries(make_matrix());
-        let select_grains = Object.fromEntries(select_ingredients());
-        let durations = Object.fromEntries(duration_datas());
+        let time_data = making_time_data()                                  // 소요 시간을 제외한 모든 시간 데이터
+        let msg_object = Object.fromEntries(obj);                           // 그냥 데이터 + bool 데이터 포함
+        let stack_matrix = Object.fromEntries(make_matrix());               // 리스트 형 데이터
+        let select_grains = Object.fromEntries(select_ingredients());       // 주 원료 선택자
+        let durations = Object.fromEntries(duration_datas());               // 소요 시간
         let valid_remarks = document.getElementById("remark_cell").innerText // 특이사항
+
         // Make BatchID =================================================================
         let report_date = time_data['report_date'];
         let yeast_equip_num = msg_object['yeast_equip_num']
@@ -372,6 +373,10 @@ const sent_data = async (flag) => {
     }
 };
 
+
+// 디버깅 플래그 제작 하기
+// 임시 저장 데이터에서 불러오기 기능 추가하기
+// 조회 기능 만들기 (+ 페이지를 따로 제작 할건지 ??)
 
 
 
