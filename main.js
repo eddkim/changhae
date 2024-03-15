@@ -64,7 +64,7 @@ const ingredients = {
     "현미/쇄미":"7",
     "현미/백미":"8",
     "현미/겉보리/백미":"9",
-    "현미/우리밀/백미":"10",
+    "현미/우리밀/백미":"10",   
     "백미/우리밀/곁보리/현미":"11",
     "백미/우리밀/곁보리/현미/T.P":"12"
 }
@@ -83,7 +83,7 @@ const fetch_url = "http://apst.iptime.org:6662/api/";
 const api_obj = {
     "host":"host.docker.internal",
     "database":"changhae_v3",
-    "id":"postgres",
+    "id":"postgres", 
     "password":"apst2007",
     "port" : "6661",
 
@@ -92,7 +92,7 @@ const api_obj = {
 // 셀 데이터를 추출 하는 함수 ==============================================================================================================================
 
 const extract_text = (cell) => {
-    const element = document.getElementById(cell);
+    const element = document.getElementById(cell);  
     if (!element) {
         console.log(`Element with id '${cell}' does not exist.`);
         return null;
@@ -135,30 +135,30 @@ const making_id = () => {
     document.querySelectorAll('.msgbox-toggle-on').forEach((element, index) => {
         const id = `cell${index + 1}`;
         element.setAttribute('id', id);
-        console.log(id);
+        // console.log(id);
     });
 
     toggle_on_classes.forEach(class_name => {
         document.querySelectorAll(class_name).forEach((element, index) => {
             const id = `${class_name.replace('.', '').replace('-toggle-on','')}-cell${index + 1}`;
             element.setAttribute('id', id);
-            console.log(id);
+            // console.log(id);
         });
     });
     document.querySelectorAll('.datetime-local').forEach((element, index) => {
         const id = `datetime-input${index + 1}`;
         element.setAttribute('id', id);
-        console.log(id);
+        // console.log(id);
     });
     document.querySelectorAll('.time-output-box').forEach((element, index) => {
         const id = `datetime-output${index + 1}`;
         element.setAttribute('id', id);
-        console.log(id);
+        // console.log(id);
     });
     document.querySelectorAll('.select-box').forEach((element, index) => {
         const id = `select-cell${index + 1}`;
         element.setAttribute('id', id);
-        console.log(id);
+        // console.log(id);
     });
 
     const checkboxes = document.querySelectorAll('.bool-box input[type="checkbox"]');
@@ -205,7 +205,7 @@ const making_time_data = () => {
         acc[key] = values[index];
         return acc;
     }, {});
-    const valid_fermentation_time = time_obj['valid_fermentation_time'];
+
     const valid_starttime = new Date(time_obj['valid_starttime']);
     const valid_endtime = new Date(time_obj['valid_endtime']);
     if (valid_starttime && valid_endtime) {
@@ -216,11 +216,11 @@ const making_time_data = () => {
     const report_date = extract_time('.main-timelocal')[0];
     time_obj['report_date'] = report_date;
 
-    console.log(time_obj);
+    // console.log(time_obj); 디버깅
     return time_obj
 };
 
-
+// 김홍연 2024-03-02 수정
 const make_matrix = () => {
     let stack_matrix = new Map();
 
@@ -237,8 +237,6 @@ const make_matrix = () => {
             return extract_text(id);
         });
         
-        // stack_matrix.set(stack_culumns[index], `{${stack_array.join(',')}}`);
-
         const filtered_stack_array = stack_array.filter(value => value !== '');
         stack_matrix.set(stack_culumns[index], `{${filtered_stack_array.join(',')}}`);
     });
@@ -246,7 +244,7 @@ const make_matrix = () => {
 
     return stack_matrix
 }
-
+// 김홍연 2024-03-01 수정
 const display_datetime = () => {
 
     const datetimeInputs = document.querySelectorAll('.datetime-local');
@@ -318,7 +316,7 @@ const making_json = async () => {
         let yeast_equip_num = msg_object['yeast_equip_num']
         let fer_equip_num = msg_object['fer_equip_num']
         // console.log(time_data,report_date,yeast_equip_num, fer_equip_num) 배치ID 디버깅
-        console.log(stack_matrix);
+        // console.log(stack_matrix); 디버깅
         // Batch ID 유효성 검사 ==========================================================
         if (report_date ==='' || yeast_equip_num ==='' || fer_equip_num ==='') {
             alert('보고 날짜, 공정 번호를 채워주세요')
@@ -332,13 +330,10 @@ const making_json = async () => {
         if(person ===""){
             person = "    "
         }
-        console.log(person)
+        // console.log(person) 담당자 디버깅
 
         // 각 셀 OBJ 취합 후 JSON stringfy ================================================
         const combi_obj = { ...api_obj, ...batch_id, ...select_grains, ...msg_object, ...stack_matrix, ...time_data, ...durations, "valid_remarks":valid_remarks,"person_in_charge":person};
-        // const new_combi_obj = Object.fromEntries(
-        //     Object.entries(combi_obj).filter(([_, value]) => value !== "")
-        // );
         const new_combi_obj = Object.fromEntries(
             Object.entries(combi_obj).filter(([_, value]) => {
                 return value !== "" && value !== "{}";
@@ -375,9 +370,11 @@ const sent_data = async (flag) => {
         }
         const data = await response.json();
         console.log('Resource updated successfully:', data);
+        alert('성공')
     } catch (error) {
         console.error('Error updating resource:', error);
-    }
+        alert(`${batch_id} 번 일지 전송 실패. 개발자에게 문의하세요`)
+    } 
 };
 
 
